@@ -1,12 +1,5 @@
-#include <gtest/gtest.h>
-
-#include <tdl/Param.h>
-#include <tdl/ParamCTDFile.h>
-#include <tdl/ParamValue.h>
-#include <tdl/platform.h>
-#include <tdl/version.h>
-
-
+#include <tdl/ParamDocument.h>
+#include <tdl/ParamDocumentToCTD.h>
 
 
 /* This file, in combination with multiple_definition02_test.cpp are testing for multiple definition errors.
