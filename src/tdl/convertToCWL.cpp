@@ -100,6 +100,29 @@ void addInput_impl(TypeType const &   type,
                                               cwl::CommandInputEnumSchema,
                                               cwl::CommandInputArraySchema,
                                               std::string>>{cwl::CWLType::null, type};
+        if constexpr (std::is_same_v<InputType, https___w3id_org_cwl_cwl::CommandInputParameter>) {
+            std::visit(overloaded{
+                [&](BoolValue const & v) {
+                    *input.default_ = v;
+                },
+                [&](IntValue const & v) {
+                    *input.default_ = v.value;
+                },
+                [&](DoubleValue const & v) {
+                    *input.default_ = v.value;
+                },
+                [&](StringValue const & v) {
+                    if (!child.tags.count("output")
+                         && !child.tags.count("file")
+                         && !child.tags.count("directory")
+                         && !child.tags.count("prefixed")) {
+
+                        *input.default_ = v.value;
+                     }
+                },
+                [&](auto const&) {}
+            }, child.value);
+        }
     }
     if constexpr (std::is_same_v<InputType, cwl::CommandInputParameter>) {
         if ((child.tags.count("required") == 0 && child.tags.count("no_default") == 0)
